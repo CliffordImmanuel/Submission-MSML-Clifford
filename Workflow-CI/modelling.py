@@ -5,12 +5,11 @@ import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-# Lokasi penyimpanan lokal
-mlflow.set_tracking_uri("file:./mlruns")
-mlflow.set_experiment("Eksperimen_Clifford")
+# KOMENTARI/HAPUS bagian ini agar tidak bentrok dengan MLflow Project
+# mlflow.set_tracking_uri("file:./mlruns")
+# mlflow.set_experiment("Eksperimen_Clifford")
 
 def train_model():
-    # Mengambil lokasi file di folder yang sama dengan script
     base_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(base_dir, "churn_clean.csv")
     
@@ -18,15 +17,15 @@ def train_model():
         print(f"ERROR: File {data_path} TIDAK DITEMUKAN!")
         return
 
-    # 1. Load Data
     df = pd.read_csv(data_path)
     X = df.drop('Churn', axis=1)
     y = df['Churn']
 
-    # 2. MLflow Training
+    # Gunakan autolog sebelum start_run
     mlflow.sklearn.autolog()
 
-    with mlflow.start_run(run_name="Basics_Modelling_Clifford"):
+    # Tambahkan nested=True agar bisa berjalan di dalam MLflow Project
+    with mlflow.start_run(run_name="Basics_Modelling_Clifford", nested=True):
         print("Sedang melatih model...")
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         model.fit(X, y)
