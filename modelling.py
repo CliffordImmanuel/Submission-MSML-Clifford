@@ -5,8 +5,7 @@ import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-# KOMENTARI/HAPUS bagian ini agar tidak bentrok dengan MLflow Project
-# mlflow.set_tracking_uri("file:./mlruns")
+# Hapus/Komentari baris ini karena MLflow Project yang akan menentukan eksperimennya
 # mlflow.set_experiment("Eksperimen_Clifford")
 
 def train_model():
@@ -21,10 +20,9 @@ def train_model():
     X = df.drop('Churn', axis=1)
     y = df['Churn']
 
-    # Gunakan autolog sebelum start_run
     mlflow.sklearn.autolog()
 
-    # Tambahkan nested=True agar bisa berjalan di dalam MLflow Project
+    # Tambahkan nested=True agar bisa berjalan di bawah kontrol 'mlflow run'
     with mlflow.start_run(run_name="Basics_Modelling_Clifford", nested=True):
         print("Sedang melatih model...")
         model = RandomForestClassifier(n_estimators=100, random_state=42)
