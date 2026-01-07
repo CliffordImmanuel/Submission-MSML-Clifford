@@ -23,8 +23,7 @@ jobs:
 
     - name: Execute MLflow Project
       run: |
-        # Perintah ini akan mendeteksi file MLProject dan menjalankan modelling.py
-        mlflow run . --no-conda
+        mlflow run . --env-manager local
 
     - name: Upload MLflow Results
       uses: actions/upload-artifact@v4
